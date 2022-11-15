@@ -8,4 +8,5 @@
  */
 
 rootProject.name = 'students-2022ws-01'
-include('domain')
+include('domain', 'client')
+

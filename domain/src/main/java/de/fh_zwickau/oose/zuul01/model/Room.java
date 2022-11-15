@@ -1,15 +1,17 @@
 package de.fh_zwickau.oose.zuul01.model;
 
+import de.fh_zwickau.oose.zuul01.AbstractRoom;
 import de.fh_zwickau.oose.zuul01.model.enums.Direction;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 import java.util.Map;
 
-@Data
-public class Room {
+@Getter
+@Setter
+@NoArgsConstructor
+public class Room extends AbstractRoom {
     private String roomName;
-    private String description;
-    private Map<Direction, Room> exits;
+    private Map<Direction, AbstractRoom> exits;
     private List<Item> items;
 }

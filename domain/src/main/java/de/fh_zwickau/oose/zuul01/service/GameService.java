@@ -1,39 +1,42 @@
 package de.fh_zwickau.oose.zuul01.service;
 
+import de.fh_zwickau.oose.zuul01.AbstractRoom;
 import de.fh_zwickau.oose.zuul01.model.*;
 import de.fh_zwickau.oose.zuul01.model.enums.Direction;
+import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static de.fh_zwickau.oose.zuul01.model.enums.Direction.*;
 
+@Getter
 public class GameService {
 
+    private PlayerService playerService;
     private ItemService itemService;
     private RoomService roomService;
-    private List<Game> games;
+    private Game game;
 
     public GameService() {
-        games = new ArrayList<>();
         itemService = new ItemService();
+        playerService = new PlayerService();
+        roomService = new RoomService();
     }
 
-    public Game createGame() {
+    public Game play() {
+        Game game = new Game();
 
-        NormalRoom vorhof = new NormalRoom();
-        NormalRoom barlager = new NormalRoom();
-        NormalRoom toiletten = new NormalRoom();
-        NormalRoom pausenraum = new NormalRoom();
-        NormalRoom lager = new NormalRoom();
-        NormalRoom foyer = new NormalRoom();
-        NormalRoom bar = new NormalRoom();
-        NormalRoom buero = new NormalRoom();
-        NormalRoom garderobe = new NormalRoom();
-        NormalRoom partyraum = new NormalRoom();
-        NormalRoom kueche = new NormalRoom();
+        Room vorhof = new Room();
+        Room barlager = new Room();
+        Room toiletten = new Room();
+        Room pausenraum = new Room();
+        Room lager = new Room();
+        Room foyer = new Room();
+        Room bar = new Room();
+        Room buero = new Room();
+        Room garderobe = new Room();
+        Room partyraum = new Room();
+        Room kueche = new Room();
 
         // Räume erzeugen:
         vorhof.setDescription("Außenbereich der Veranstaltungslocation.");
@@ -68,11 +71,19 @@ public class GameService {
         items.add(itemService.createMaterial("Orange", "Noye", werkzeug, "sliced", bar, kueche));
         kueche.setItems(items);
 
-        return null;
+        Player player = new Player();
+        player.setPath(new Stack<>());
+        player.setCurrentRoom(foyer);
+
+        game.setPlayer(player);
+        game.setAvailableRooms(Arrays.asList(vorhof, barlager, toiletten, pausenraum, lager, foyer, bar, buero, garderobe, partyraum, kueche));
+
+        this.game = game;
+        return game;
     }
 
-    private Map<Direction, Room> createExits(Direction[] directions, Room... rooms) {
-        Map<Direction, Room> exists = new HashMap<>();
+    private Map<Direction, AbstractRoom> createExits(Direction[] directions, Room... rooms) {
+        Map<Direction, AbstractRoom> exists = new HashMap<>();
         for (int i = 0; i < directions.length; i++) {
             exists.put(directions[i], rooms[i]);
         }
