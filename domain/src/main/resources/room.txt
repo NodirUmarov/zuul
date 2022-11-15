@@ -1,0 +1,3 @@
+kitchen
+eat something tasty
+OSTEN:KITCHEN
